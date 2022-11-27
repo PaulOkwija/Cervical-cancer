@@ -126,12 +126,12 @@ def extract_images(dataset_1, dataset_2,common):
     print("Extracting images and masks")
     count = 1
     for item in common:
-      if item in dataset_1['Img_name']:
+      if item in list(dataset_1['Img_name']):
         img_path_1, msk_path_1 = generate_path(dataset_1,item,3)    
         images.append(img_path_1)
         masks.append(msk_path_1)
       else:  
-        img_path_1, msk_path_1 = generate_path(dataset_2,item)    
+        img_path_1, msk_path_1 = generate_path(dataset_2,value=item)    
         images.append(img_path_1)
         masks.append(msk_path_1)
 
