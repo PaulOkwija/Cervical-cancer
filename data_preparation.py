@@ -40,3 +40,24 @@ def create_dataset(df, train = False, aug = False):
         # ds = ds.concatenate(ds3)
         ds = ds.concatenate(ds4)
     return ds
+
+def prepare_data(df, BATCH_SIZE, test1, test2):
+    #preparing data 
+    train = None
+    valid = None
+    test = None
+
+    BUFFER_SIZE = 1000
+    train_df, test_df = train_test_split(df, random_state=0, test_size=test1)
+    valid_df, test_df = train_test_split(test_df, random_state=0, test_size=test2)
+
+    train = create_dataset(train_df, train = True, aug=True)
+    valid = create_dataset(valid_df)
+    test = create_dataset(test_df)
+
+    train_dataset = train.cache().shuffle(BUFFER_SIZE).batch(BATCH_SIZE).repeat()
+    train_dataset = train_dataset.prefetch(buffer_size=tf.data.AUTOTUNE)
+    valid_dataset = valid.batch(BATCH_SIZE)
+    test_dataset = test.batch(BATCH_SIZE)
+
+    return train_dataset, valid_dataset, test_dataset, len(train_df)
