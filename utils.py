@@ -71,15 +71,15 @@ def extract_high_agreement_images(dataset_1, dataset_2,common):
 
         print("Extracting image_{} and respective masks...".format(count))
         img_path_1 = '/content/images/' + img
-        image = read_image(img_path_1,img_size)
+        image = read_image(img_path_1)
         # images.append(img_path_1)
 
         msk_path_1 = '/content/masks/' + msk1 + '.png'
-        mask1 = read_image(msk_path_1,img_size,color_scale='gray')
+        mask1 = read_image(msk_path_1,color_scale='gray')
         # masks.append(msk_path_1)
 
         msk_path_2 = '/content/masks/' + msk2 + '.png'
-        mask2 = read_image(msk_path_2,img_size,color_scale='gray')
+        mask2 = read_image(msk_path_2,color_scale='gray')
         # masks.append(msk_path_1)
 
         print("Computing level of agreement...:")
