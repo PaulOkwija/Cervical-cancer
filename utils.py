@@ -104,3 +104,45 @@ def extract_high_agreement_images(dataset_1, dataset_2,common):
     df = pd.DataFrame(image_and_mask)
 
     return df
+
+def generate_path(dataframe,value,columns=2):
+  ind1 = dataframe[dataframe['Img_name']==value].index[0]
+  
+  if columns==3:
+    img, msk1,_ = dataframe.iloc[ind1]
+  else:
+    img, msk1 = dataframe.iloc[ind1]
+          
+  img_path_1 = '/content/images/' + img
+  msk_path_1 = '/content/masks/' + msk1 + '.png'
+  return img_path_1, msk_path_1
+
+
+def extract_images(dataset_1, dataset_2,common):
+    images = []
+    masks = []
+
+# Obtain the common images, masks and their respective paths from both datasets
+    print("Extracting images and masks")
+    count = 1
+    for item in common:
+      if item in dataset_1['Img_name']:
+        img_path_1, msk_path_1 = generate_path(dataset_1,item,3)    
+        images.append(img_path_1)
+        masks.append(msk_path_1)
+      else:  
+        img_path_1, msk_path_1 = generate_path(dataset_2,item)    
+        images.append(img_path_1)
+        masks.append(msk_path_1)
+
+      count = count + 1
+
+    print("Number of images collected:", len(images))
+    print("#########################################")
+
+    print("Generating final dataframe...")    
+  # Generating a dataframe with images whose agreement is greater than 0.5
+    image_and_mask = {'image_path':images, 'mask_path':masks}
+    df = pd.DataFrame(image_and_mask)
+
+    return df
