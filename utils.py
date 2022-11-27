@@ -19,13 +19,13 @@ def read_image(img_path, img_size=[512,512], color_scale='rgb'):
 
     return image
 
-def IOU(y_true,y_test):
+def IOU_agg(y_true,y_test):
   inter = np.logical_and(y_true,y_test)
   union = np.logical_or(y_true,y_test)
   iou_score = np.sum(inter)/np.sum(union)
   return iou_score
 
-def Dice(y_true,y_test):
+def Dice_agg(y_true,y_test):
   inter = np.logical_and(y_true,y_test)
   union = np.logical_or(y_true,y_test)
   dice_score = (2* np.sum(inter))/(np.sum(union) + np.sum(inter))
@@ -83,10 +83,10 @@ def extract_high_agreement_images(dataset_1, dataset_2,common):
         # masks.append(msk_path_1)
 
         print("Computing level of agreement...:")
-        IOU_agg = IOU(mask1, mask2)
-        Dice_agg = Dice(mask1, mask2)
-        avg = (IOU_agg + Dice_agg)/2
-        print("IOU:",IOU_agg,"Dice:",Dice_agg,"Avg_aggrement:",avg)
+        IOU_val = IOU_agg(mask1, mask2)
+        Dice_val = Dice_agg(mask1, mask2)
+        avg = (IOU_val + Dice_val)/2
+        print("IOU:",IOU_val,"Dice:",Dice_val,"Avg_aggrement:",avg)
 
         # Collect the images with a high level of aggrement between two reviewers
         if avg>=0.5:
