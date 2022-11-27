@@ -57,8 +57,10 @@ def extract_diff_common(dataset_1, dataset_2):
 
 
 def extract_high_agreement_images(dataset_1, dataset_2,common):
-    images = []
-    masks = []
+    images_above = []
+    masks_above = []
+    images_below = []
+    masks_below = []
 
 # Obtain the common images, masks and their respective paths from both datasets
     print("Extracting images and masks")
@@ -90,8 +92,11 @@ def extract_high_agreement_images(dataset_1, dataset_2,common):
 
         # Collect the images with a high level of aggrement between two reviewers
         if avg>=0.5:
-            images.append(img_path_1)
-            masks.append(msk_path_1)
+            images_above.append(img_path_1)
+            masks_above.append(msk_path_1)
+        else:
+            images_below.append(img)
+            # masks_below.append(msk1)          
 
         count = count + 1
 
@@ -103,7 +108,7 @@ def extract_high_agreement_images(dataset_1, dataset_2,common):
     image_and_mask = {'image_path':images, 'mask_path':masks}
     df = pd.DataFrame(image_and_mask)
 
-    return df
+    return df, images_below
 
 def generate_path(dataframe,value,columns=2):
   ind1 = dataframe[dataframe['Img_name']==value].index[0]
