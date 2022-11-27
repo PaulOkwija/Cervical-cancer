@@ -100,7 +100,8 @@ def extract_high_agreement_images(dataset_1, dataset_2,common):
 
         count = count + 1
 
-    print("Number of images collected:", len(images))
+    print("Number of images_above 0.5 aggrement collected:", len(images_above))
+    print("Number of images_below 0.5 aggrement collected:", len(images_below))
     print("#########################################")
 
     print("Generating final dataframe...")    
