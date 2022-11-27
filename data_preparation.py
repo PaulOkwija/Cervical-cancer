@@ -3,7 +3,7 @@ import tensorflow as tf
 
 
 def preprocessing(img_path, mak_path):
-    IMG_SIZE = [512,512]
+    IMG_SIZE = [256,256]
     car_img = tf.io.read_file(img_path) 
     car_img = tf.image.decode_jpeg(car_img, channels=3)
     # car_img = tf.image.central_crop(car_img, central_fraction=0.85)
