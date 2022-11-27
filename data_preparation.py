@@ -20,8 +20,8 @@ def preprocessing(img_path, mak_path):
     return car_img, mask_img
 
 def flip(image,mask):
-    image = tf.image.random_flip_left_right(image)
-    mask = tf.image.random_flip_left_right(mask)
+    image = tf.image.flip_left_right(image)
+    mask = tf.image.flip_left_right(mask)
     return image, mask
 
 def rotate(image,mask):
