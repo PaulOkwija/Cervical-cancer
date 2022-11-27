@@ -106,7 +106,7 @@ def extract_high_agreement_images(dataset_1, dataset_2,common):
 
     print("Generating final dataframe...")    
   # Generating a dataframe with images whose agreement is greater than 0.5
-    image_and_mask = {'image_path':images, 'mask_path':masks}
+    image_and_mask = {'image_path':images_above, 'mask_path':masks_above}
     df = pd.DataFrame(image_and_mask)
 
     return df, images_below
