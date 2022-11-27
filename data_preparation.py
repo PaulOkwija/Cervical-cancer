@@ -19,7 +19,7 @@ def preprocessing(img_path, mak_path):
 
     return car_img, mask_img
 
-def flip(image,mask):
+def flipLR(image,mask):
     image = tf.image.flip_left_right(image)
     mask = tf.image.flip_left_right(mask)
     return image, mask
@@ -29,15 +29,21 @@ def rotate(image,mask):
     mask = tf.image.rot90(mask)
     return image, mask
 
+def flipUD(image,mask):
+    image = tf.image.flip_up_down(image)
+    mask = tf.image.flip_up_down(mask)
+    return image, mask
+
+
 def create_dataset(df, train = False, aug = False):
     ds = tf.data.Dataset.from_tensor_slices((df["image_path"].values, df["mask_path"].values))
     ds = ds.map(preprocessing, tf.data.AUTOTUNE)
     if aug:
-        ds2 = ds.map(flip)
-        # ds3 = ds.map(crop)
+        ds2 = ds.map(flipLR)
+        ds3 = ds.map(flipUD)
         ds4 = ds.map(rotate)
         ds = ds.concatenate(ds2)
-        # ds = ds.concatenate(ds3)
+        ds = ds.concatenate(ds3)
         ds = ds.concatenate(ds4)
     return ds
 
