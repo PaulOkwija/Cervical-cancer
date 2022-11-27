@@ -60,4 +60,9 @@ def prepare_data(df, BATCH_SIZE, test1, test2):
     valid_dataset = valid.batch(BATCH_SIZE)
     test_dataset = test.batch(BATCH_SIZE)
 
+    print("Dataset_split:\n",
+            "Train: ", len(train_df), 
+            "\nValidation: ", len(valid_df), 
+            "\nTest: ", len(test_df))
+
     return train_dataset, valid_dataset, test_dataset, len(train_df)
