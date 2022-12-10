@@ -4,11 +4,11 @@ import tensorflow as tf
 
 def preprocessing(img_path, mak_path):
     IMG_SIZE = [512,512]
-    car_img = tf.io.read_file(img_path) 
-    car_img = tf.image.decode_jpeg(car_img, channels=3)
-    # car_img = tf.image.central_crop(car_img, central_fraction=0.85)
-    car_img = tf.image.resize(car_img, IMG_SIZE)
-    car_img = tf.cast(car_img, tf.float32) / 255.0
+    cerv_img = tf.io.read_file(img_path) 
+    cerv_img = tf.image.decode_jpeg(cerv_img, channels=3)
+    # cerv_img = tf.image.central_crop(cerv_img, central_fraction=0.85)
+    cerv_img = tf.image.resize(cerv_img, IMG_SIZE)
+    cerv_img = tf.cast(cerv_img, tf.float32) / 255.0
     
     mask_img = tf.io.read_file(mak_path)
     mask_img = tf.image.decode_jpeg(mask_img, channels=3)
@@ -17,7 +17,7 @@ def preprocessing(img_path, mak_path):
     mask_img = mask_img[:,:,:1]    
     mask_img = tf.math.sign(mask_img)
 
-    return car_img, mask_img
+    return cerv_img, mask_img
 
 def flipLR(image,mask):
     image = tf.image.flip_left_right(image)
