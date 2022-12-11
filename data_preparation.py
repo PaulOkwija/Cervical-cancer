@@ -35,7 +35,8 @@ def flipUD(image,mask):
     return image, mask
 
 
-def create_dataset(df, train = False, aug = False):
+def create_dataset(df, train = False, aug = False, batch=2):
+    BATCH_SIZE = batch
     ds = tf.data.Dataset.from_tensor_slices((df["image_path"].values, df["mask_path"].values))
     ds = ds.map(preprocessing, tf.data.AUTOTUNE)
     if aug:
@@ -45,31 +46,32 @@ def create_dataset(df, train = False, aug = False):
         ds = ds.concatenate(ds2)
         ds = ds.concatenate(ds3)
         ds = ds.concatenate(ds4)
-    return ds
-
-def prepare_data(df, BATCH_SIZE, test1, test2):
-    #preparing data 
-    train = None
-    valid = None
-    test = None
+        print("Augmented train size:",len(ds))
 
     BUFFER_SIZE = 1000
-    train_df, test_df = train_test_split(df, random_state=0, test_size=test1)
-    valid_df, test_df = train_test_split(test_df, random_state=0, test_size=test2)
 
-    train = create_dataset(train_df, train = True, aug=True)
-    valid = create_dataset(valid_df)
-    test = create_dataset(test_df)
+    if train:
+        ds = ds.cache().shuffle(BUFFER_SIZE).batch(BATCH_SIZE).repeat()
+        ds = ds.prefetch(buffer_size=tf.data.AUTOTUNE)
+    else:
+        ds = ds.batch(BATCH_SIZE)
 
-    train_dataset = train.cache().shuffle(BUFFER_SIZE).batch(BATCH_SIZE).repeat()
-    train_dataset = train_dataset.prefetch(buffer_size=tf.data.AUTOTUNE)
-    valid_dataset = valid.batch(BATCH_SIZE)
-    test_dataset = test.batch(BATCH_SIZE)
+    return ds
+
+def prepare_data(df, BATCH_SIZE, test1):
+    #preparing data 
+    train_df, valid_df = train_test_split(df, random_state=0, test_size=test1)
+    # valid_df, test_df = train_test_split(test_df, random_state=0, test_size=test2)
 
     print("Dataset_split:",
             "\nTrain: ", len(train_df), 
-            "\nAugmented_Train: ", len(train),
-            "\nValidation: ", len(valid_df), 
-            "\nTest: ", len(test_df))
+            "\nValidation: ", len(valid_df))
 
-    return train_dataset, valid_dataset, test_dataset, len(train_df)
+    train_dataset = create_dataset(train_df, train = True, aug=True, batch = BATCH_SIZE)
+    valid_dataset = create_dataset(valid_df, batch = BATCH_SIZE)
+    # test = create_dataset(test_df, batch = BATCH_SIZE)
+
+ 
+            # "\nTest: ", len(test_df))
+
+    return train_dataset, valid_dataset, len(train_df)
