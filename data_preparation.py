@@ -36,6 +36,7 @@ def flipUD(image,mask):
 
 
 def create_dataset(df, train = False, aug = False, batch=2):
+    train_num = 0
     BATCH_SIZE = batch
     ds = tf.data.Dataset.from_tensor_slices((df["image_path"].values, df["mask_path"].values))
     ds = ds.map(preprocessing, tf.data.AUTOTUNE)
@@ -46,7 +47,8 @@ def create_dataset(df, train = False, aug = False, batch=2):
         ds = ds.concatenate(ds2)
         ds = ds.concatenate(ds3)
         ds = ds.concatenate(ds4)
-        print("Augmented train size:",len(ds))
+        train_num = len(ds)
+        print("Augmented train size:",train_num)
 
     BUFFER_SIZE = 1000
 
@@ -56,7 +58,7 @@ def create_dataset(df, train = False, aug = False, batch=2):
     else:
         ds = ds.batch(BATCH_SIZE)
 
-    return ds
+    return ds, train_num
 
 def prepare_data(df, BATCH_SIZE, test1):
     #preparing data 
@@ -67,11 +69,11 @@ def prepare_data(df, BATCH_SIZE, test1):
             "\nTrain: ", len(train_df), 
             "\nValidation: ", len(valid_df))
 
-    train_dataset = create_dataset(train_df, train = True, aug=True, batch = BATCH_SIZE)
-    valid_dataset = create_dataset(valid_df, batch = BATCH_SIZE)
+    train_dataset,num = create_dataset(train_df, train = True, aug=True, batch = BATCH_SIZE)
+    valid_dataset,_ = create_dataset(valid_df, batch = BATCH_SIZE)
     # test = create_dataset(test_df, batch = BATCH_SIZE)
 
  
             # "\nTest: ", len(test_df))
 
-    return train_dataset, valid_dataset, len(train_df)
+    return train_dataset, valid_dataset, num
