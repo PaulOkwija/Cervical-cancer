@@ -48,12 +48,12 @@ Cervical-cancer/
 - **csv_analysis.ipynb**: Analysis of CSV data from reviewers.
 - **lesion_segmentation.ipynb**: End-to-end workflow for cervical lesion segmentation, including data preparation, model training, evaluation, and visualization of predictions.
 
-## How to Run
+<!-- ## How to Run
 1. Prepare your dataset in the required format (see notebooks for examples).
 2. Use the data preparation utilities to preprocess and split your data.
 3. Select a model architecture from `model_definitions/`.
 4. Train and evaluate your model using the provided scripts and metrics.
-5. Use the notebooks for data analysis and visualization.
+5. Use the notebooks for data analysis and visualization. -->
 
 ## Requirements
 - Python 3.x
