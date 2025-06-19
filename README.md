@@ -18,6 +18,7 @@ Cervical-cancer/
 │   ├── csv_analysis.ipynb              # CSV data analysis
 │   ├── data_collection.ipynb           # Data collection and JSON structure analysis
 │   ├── EDA.ipynb                       # Exploratory Data Analysis
+│   ├── lesion_segmentation.ipynb       # End-to-end workflow for cervical lesion segmentation
 ├── saved_models/                       # Directory for saving trained models
 ├── utils/                              # Utility scripts
 │   ├── data_preparation.py             # Data preprocessing and augmentation
@@ -45,6 +46,7 @@ Cervical-cancer/
 - **EDA.ipynb**: Data exploration and visualization.
 - **data_collection.ipynb**: Analysis of JSON data structure and content.
 - **csv_analysis.ipynb**: Analysis of CSV data from reviewers.
+- **lesion_segmentation.ipynb**: End-to-end workflow for cervical lesion segmentation, including data preparation, model training, evaluation, and visualization of predictions.
 
 ## How to Run
 1. Prepare your dataset in the required format (see notebooks for examples).
